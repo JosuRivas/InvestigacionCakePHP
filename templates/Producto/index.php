@@ -17,6 +17,12 @@
             <td>
                 <?= $product->precio ?>
             </td>
+            <td>
+                <?= $this->Html->link('Editar',['action' => 'actualizar',$product->nombre]) ?>
+            </td>
+            <td>
+                <?= $this->Form->postLink('Eliminar', ['action' => 'eliminar',$product->nombre],['confirm' =>'Esta seguro que desea eliminar?']) ?>
+            </td>
         </tr>
     <?php } ?>
 </table>

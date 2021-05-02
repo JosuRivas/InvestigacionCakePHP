@@ -26,4 +26,30 @@ class ProductoController extends AppController{
         }
         $this->set('producto',$producto);
     }
+
+    public function actualizar($nombre){
+        $producto = $this->Producto
+        ->findByNombre($nombre)
+        ->firstOrFail(); // verifica si existe el articulo que se quiere actualizar
+
+        if ($this->request->is(['post','put'])) { //verifica si es un post o un put request
+            $this->Producto->patchEntity($producto,$this->request->getData()); //actualiza el articulo con los datos enviados
+            if ($this->Producto->save($producto)) {
+                $this->Flash->success('El producto ha sido actualizado');
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error('No se ha podido actualizar el producto');
+        }
+        $this->set('producto',$producto);
+    }
+
+    public function eliminar($nombre){
+        $this->request->allowMethod(['post','delete']);
+
+        $producto = $this->Producto->findByNombre($nombre)->firstOrFail();
+        if ($this->Producto->delete($producto)) {
+            $this->Flash->success('El producto ha sido eliminado');
+            return $this->redirect(['action' => 'index']);
+        }
+    }
 }
